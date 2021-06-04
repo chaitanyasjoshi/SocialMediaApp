@@ -1,0 +1,17 @@
+{
+  "name": "social-media-app",
+  "version": "1.0.0",
+  "description": "Social media app using MERNG stack",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "chaitanyasjoshi",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.25.0",
+    "graphql": "^15.5.0",
+    "mongoose": "^5.12.12"
+  }
+}
