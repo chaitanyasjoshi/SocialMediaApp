@@ -4,6 +4,7 @@
   "description": "Social media app using MERNG stack",
   "main": "index.js",
   "scripts": {
+    "serve": "node index.js",
     "start": "nodemon index.js"
   },
   "author": "chaitanyasjoshi",
