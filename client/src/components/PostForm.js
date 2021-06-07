@@ -4,6 +4,7 @@ import React from 'react';
 import { Button, Form } from 'semantic-ui-react';
 
 import { useForm } from '../utils/hooks';
+import { FETCH_POST_QUERY } from '../utils/graphql';
 
 export default function PostForm() {
   const { values, onChange, onSubmit } = useForm(createPostCallback, {
@@ -12,8 +13,22 @@ export default function PostForm() {
 
   const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
     variables: values,
-    update(_, result) {
-      console.log(result);
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: FETCH_POST_QUERY,
+      });
+
+      let newData = [...data.getPosts];
+      newData = [result.data.createPost, ...newData];
+      proxy.writeQuery({
+        query: FETCH_POST_QUERY,
+        data: {
+          ...data,
+          getPosts: {
+            newData,
+          },
+        },
+      });
       values.body = '';
     },
   });
@@ -23,20 +38,30 @@ export default function PostForm() {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
-      <h2>Create Post:</h2>
-      <Form.Field>
-        <Form.Input
-          placeholder='Hi World!'
-          name='body'
-          onChange={onChange}
-          value={values.body}
-        />
-        <Button type='submit' color='teal'>
-          Post
-        </Button>
-      </Form.Field>
-    </Form>
+    <div>
+      <Form onSubmit={onSubmit}>
+        <h2>Create Post:</h2>
+        <Form.Field>
+          <Form.Input
+            placeholder='Hi World!'
+            name='body'
+            onChange={onChange}
+            value={values.body}
+            error={error ? true : false}
+          />
+          <Button type='submit' color='teal'>
+            Post
+          </Button>
+        </Form.Field>
+      </Form>
+      {error && (
+        <div className='ui error message' style={{ marginBottom: 20 }}>
+          <ul className='list'>
+            <li>{error.graphQLErrors[0].message}</li>
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }
 
