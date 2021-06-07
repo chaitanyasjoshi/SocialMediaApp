@@ -70,7 +70,7 @@ module.exports = {
     async login(parent, { username, password }, context, info) {
       const { errors, isValid } = validateLoginInput(username, password);
       if (!isValid) {
-        throw new UserInputError('Errors', errors);
+        throw new UserInputError('Errors', { errors });
       }
 
       const user = await User.findOne({ username });
