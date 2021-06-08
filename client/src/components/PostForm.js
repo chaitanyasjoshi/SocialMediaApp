@@ -38,7 +38,7 @@ export default function PostForm() {
   }
 
   return (
-    <div>
+    <React.Fragment>
       <Form onSubmit={onSubmit}>
         <h2>Create Post:</h2>
         <Form.Field>
@@ -61,7 +61,7 @@ export default function PostForm() {
           </ul>
         </div>
       )}
-    </div>
+    </React.Fragment>
   );
 }
 
